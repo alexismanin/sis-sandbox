@@ -1,0 +1,31 @@
+## Mac OS ##
+.DS_Store
+
+## Maven files ##
+target/
+overlays/
+dependency-reduced-pom.xml
+
+## Netbeans files ##
+nbactions.xml$
+nbproject/
+nb-configuration.xml
+## IntelliJ ##
+.idea
+*.iml
+
+## Gradle ##
+.gradle*
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+## Other ##
+*.log
+.classpath
+.project
+.settings/
