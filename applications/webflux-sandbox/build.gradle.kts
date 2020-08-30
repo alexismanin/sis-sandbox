@@ -17,6 +17,8 @@ plugins {
 
 dependencies {
     implementation(project(":kt-extensions:sis-kt"))
+
+    // Spring Boot / Webflux necessary dependencies
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -26,4 +28,8 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation("io.projectreactor:reactor-test")
+
+    // Ko-fu for full functional configuration (aim to remove annotations/reflection)
+    implementation("org.springframework.fu:spring-fu-kofu:0.3.2")
+
 }

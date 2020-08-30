@@ -6,7 +6,9 @@ allprojects {
     repositories {
         maven(url="https://nexus.geomatys.com/repository/maven-public")
         mavenCentral()
-        jcenter() 
+        jcenter()
+        maven(url="https://repo.spring.io/milestone")
+        maven(url="https://repo.spring.io/release")
     }
 }
 

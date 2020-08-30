@@ -1,43 +1,34 @@
 package fr.amanin.sis.applications.webflux.sandbox
 
-import org.opengis.referencing.operation.CoordinateOperation
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
-import org.springframework.context.support.beans
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.springframework.fu.kofu.reactiveWebApplication
+import org.springframework.fu.kofu.webflux.webFlux
 import org.springframework.http.MediaType
-import org.springframework.stereotype.Controller
+import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
-import org.springframework.web.reactive.function.server.router
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.Duration
-import java.util.stream.Collectors
-import kotlin.time.seconds
-import kotlin.time.toJavaDuration
 
-@SpringBootApplication
-class App
-
-fun main(args: Array<String>) {
-    runApplication<App>(*args) {
-        addInitializers(
-            beans {
-                bean {
-                    router {
-                        GET("/health") {
-                            TODO("Check coordinate factory")
-                        }
-
-                        GET("/hello") { hello() }
-                        GET("/hello/{name}") {
-                            hello(it.pathVariable("name"))
-                        }
-                    }
-                }
-            }
-        )
+val app = reactiveWebApplication {
+    beans {
+        bean { jacksonObjectMapper().registerReferencing() }
     }
+    webFlux {
+        codecs { string() ; jackson() }
+        router {
+            GET("/health", ::health)
+            GET("/hello") { hello() }
+            GET("/hello/{name}") {
+                hello(it.pathVariable("name"))
+            }
+            addReferencingEndpoints()
+        }
+    }
+}
+fun main(args: Array<String>) {
+    app.run()
 }
 
 fun hello(name : String = "World") = ok()
@@ -49,6 +40,4 @@ fun hello(name : String = "World") = ok()
         ), String::class.java
     )
 
-fun conversion(from : String, to: String, vararg bbox : Double) : Mono<ServerResponse> {
-    TODO()
-}
+fun health(request: ServerRequest) : Mono<ServerResponse> = TODO("Check coordinate factory has been loaded properly")
